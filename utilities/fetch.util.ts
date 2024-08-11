@@ -2,13 +2,15 @@ import { ExtendedRequest, ExtendedResponse } from '@models/fetch.model'
 import { _Promise } from '@models/result.model';
 import { getBody } from '../constants/content-type.const';
 import RequestLogger from './request-logger.util';
+import { serialize } from 'object-to-formdata';
+import { AuthToken, RequiredHeaders } from '../models/auth.model';
 
 export class Fetch {
     private readonly headers: { [key: string]: string }
 
-    constructor(options?: { cookie: string }) {
+    constructor(options?: RequiredHeaders) {
         this.headers = {
-            'Cookie': options?.cookie || ''
+            'Cookie': options.authToken ? `token=${options.authToken}` : ''
         }
     }
 
@@ -22,12 +24,65 @@ export class Fetch {
         return response;
     }
 
+    async delete<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'DELETE',
+            headers: { ...this.headers, 'Content-type': 'application/json' },
+        });
+
+        return response;
+    }
+
+    async head<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'HEAD',
+            headers: { ...this.headers, 'Content-type': 'application/json' },
+        });
+
+        return response;
+    }
+
     async post<T>(request: Partial<ExtendedRequest>): _Promise<T> {
         const response = await this.send<T>({
             ...request,
             method: 'POST',
             headers: { ...this.headers, 'Content-type': 'application/json' },
             body: JSON.stringify(request.rawBody)
+        });
+
+        return response;
+    }
+
+    async put<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'PUT',
+            headers: { ...this.headers, 'Content-type': 'application/json' },
+            body: JSON.stringify(request.rawBody)
+        });
+
+        return response;
+    }
+
+    async postForm<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'POST',
+            body: serialize(request.rawBody),
+            headers: this.headers
+        });
+
+        return response;
+    }
+
+    async putForm<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'PUT',
+            body: serialize(request.rawBody),
+            headers: this.headers
         });
 
         return response;

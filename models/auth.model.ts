@@ -5,7 +5,10 @@ type AuthInfo = {
 
 type AuthToken = { token: string };
 
+type RequiredHeaders = { authToken: string };
+
 export {
     AuthInfo,
-    AuthToken
+    AuthToken,
+    RequiredHeaders
 }

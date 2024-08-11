@@ -1,10 +1,11 @@
 import { BaseApi } from "./base.api"
 import Urls from "constants/urls.const";
 import { BookingQuery, BookingRequestData, BookingReturnData, BookingId } from "@models/booking-info.model";
+import { AuthToken, RequiredHeaders } from "@models/auth.model";
 
 export default class BookingApi extends BaseApi {
-    constructor() {
-        super({});
+    constructor(options?: RequiredHeaders) {
+        super(options);
     }
 
     async getBookingIds(bookingQuery?: BookingQuery) {
@@ -26,6 +27,15 @@ export default class BookingApi extends BaseApi {
     async createBooking(booking: BookingRequestData) {
         const response = await this._http.post<BookingReturnData>({
            url: `${Urls.BookingService}`, 
+           name: 'Create booking',
+           rawBody: booking
+        });
+        return response;
+    }
+
+    async updateBooking(id: BookingId, booking: BookingRequestData) {
+        const response = await this._http.put<BookingRequestData>({
+           url: `${Urls.BookingService}/${id}`, 
            name: 'Create booking',
            rawBody: booking
         });
