@@ -1,0 +1,74 @@
+import { ExtendedRequest, ExtendedResponse } from '@models/fetch.model'
+import { _Promise } from '@models/result.model';
+import { getBody } from '../constants/content-type.const';
+import RequestLogger from './request-logger.util';
+
+export class Fetch {
+    private readonly headers: { [key: string]: string }
+
+    constructor(options?: { cookie: string }) {
+        this.headers = {
+            'Cookie': options?.cookie || '',
+            'Accept': 'application/json'
+        }
+    }
+
+    async get<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'GET',
+            headers: this.headers
+        });
+
+        return response;
+    }
+
+    async post<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'POST',
+            headers: { ...this.headers, 'Content-type': 'application/json' },
+            body: JSON.stringify(request.rawBody)
+        });
+
+        return response;
+    }
+
+    async send<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        request.method = request.method ?? 'GET';
+        const urlObject = new URL(request.url);
+        request.pathAndQuery = `${urlObject.pathname}${urlObject.search}`;
+
+        const response = await fetch(request.url, request) as ExtendedResponse;
+        await this.processResponse(response);
+
+        await RequestLogger.log(request as ExtendedRequest, response);
+
+        return {
+            status: response.status,
+            body: response.body as T,
+            root: response
+        }
+    }
+
+    private async processResponse(response: ExtendedResponse): Promise<void> {
+        response.contentType = this.getContentType(response);
+        response.parsedBody = await getBody(response);
+        response.bodyAsAttachment = await this.getBodyAsAttachment(response);
+
+    }
+
+    private getContentType(response: ExtendedResponse): string {
+        return response.headers.get('content-type')?.split(';')[0] ?? '';
+    }
+
+    private async getBodyAsAttachment(response: ExtendedResponse): Promise<any> {
+        if (response.body instanceof Blob) {
+            return Buffer.from(await response.parsedBody.arrayBuffer());
+        } else if (response.contentType === 'application/json') {
+            return JSON.stringify(response.parsedBody);
+        }
+
+        return response.parsedBody;
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": ".",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "paths": {
+            "@models/*": [
+                "./models/*"
+            ],
+            "@utilities/*": [
+                "./utilities/*"
+            ],
+            "@constants/*": [
+                "./constants/*"
+            ]
+        }
+    }
+}
