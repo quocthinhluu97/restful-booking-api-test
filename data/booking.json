@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "firstname": "Sally",
+        "lastname": "Wilson",
+        "totalprice": 962,
+        "depositpaid": false,
+        "bookingdates": {
+            "checkin": "2024-08-03",
+            "checkout": "2024-08-07"
+        },
+        "additionalneeds": "Breakfast"
+    },
+    {
+        "id": 2,
+        "firstname": "Mark",
+        "lastname": "Ericsson",
+        "totalprice": 451,
+        "depositpaid": true,
+        "bookingdates": {
+            "checkin": "2020-05-04",
+            "checkout": "2023-04-16"
+        },
+        "additionalneeds": "Breakfast"
+    }
+]

@@ -3,7 +3,7 @@ type AuthInfo = {
     password: string
 }
 
-type AuthToken = string;
+type AuthToken = { token: string };
 
 export {
     AuthInfo,
