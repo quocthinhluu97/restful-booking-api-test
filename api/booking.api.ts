@@ -36,8 +36,25 @@ export default class BookingApi extends BaseApi {
     async updateBooking(id: BookingId, booking: BookingRequestData) {
         const response = await this._http.put<BookingRequestData>({
            url: `${Urls.BookingService}/${id}`, 
-           name: 'Create booking',
+           name: 'Update booking',
            rawBody: booking
+        });
+        return response;
+    }
+
+    async partialUpdateBooking(id: BookingId, booking: BookingRequestData) {
+        const response = await this._http.patch<Partial<BookingRequestData>>({
+           url: `${Urls.BookingService}/${id}`, 
+           name: 'Partially update booking',
+           rawBody: booking
+        });
+        return response;
+    }
+
+    async deleteBooking(id: BookingId) {
+        const response = await this._http.delete<void>({
+           url: `${Urls.BookingService}/${id}`, 
+           name: 'Delete booking',
         });
         return response;
     }

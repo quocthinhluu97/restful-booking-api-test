@@ -3,7 +3,6 @@ import AuthApi from 'api/auth.api';
 import BookingApi from 'api/booking.api';
 import { describe, expect, it } from 'vitest';
 import { FakerUtil } from '../utilities/faker.util';
-import { AuthToken } from '../models/auth.model';
 const _ = require('lodash');
 
 describe('Room booking', async () => {
@@ -66,5 +65,18 @@ describe('Room booking', async () => {
         expect(response.status).toBe(200);
 
         expect(response.root.parsedBody.additionalneeds).toBe('Tofu');
+    })
+
+    it('Should partially update booking', async () => {
+        const response = await bookingApi.partialUpdateBooking(expectedBookingId, { firstname: 'Joe', lastname: 'Doe' });
+        expect(response.status).toBe(200);
+
+        expect(response.root.parsedBody.firstname).toBe('Joe');
+        expect(response.root.parsedBody.lastname).toBe('Doe');
+    })
+
+    it('Should delete booking', async () => {
+        const response = await bookingApi.deleteBooking(expectedBookingId);
+        expect(response.status).toBe(201);
     })
 })

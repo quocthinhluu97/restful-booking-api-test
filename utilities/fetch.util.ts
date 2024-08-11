@@ -66,6 +66,17 @@ export class Fetch {
         return response;
     }
 
+    async patch<T>(request: Partial<ExtendedRequest>): _Promise<T> {
+        const response = await this.send<T>({
+            ...request,
+            method: 'PATCH',
+            headers: { ...this.headers, 'Content-type': 'application/json' },
+            body: JSON.stringify(request.rawBody)
+        });
+
+        return response;
+    }
+
     async postForm<T>(request: Partial<ExtendedRequest>): _Promise<T> {
         const response = await this.send<T>({
             ...request,
