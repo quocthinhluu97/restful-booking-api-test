@@ -1,10 +1,10 @@
-import { AuthInfo, AuthToken } from "@models/auth.model";
+import { AuthInfo, AuthToken, RequiredHeaders } from "@models/auth.model";
 import { BaseApi } from "./base.api"
 import Urls from "constants/urls.const";
 
 export default class AuthApi extends BaseApi {
     constructor() {
-        super({});
+        super({} as RequiredHeaders);
     }
 
     async createAuthToken(authInfo: AuthInfo) {

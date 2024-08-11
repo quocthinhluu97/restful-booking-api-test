@@ -6,4 +6,7 @@ export default class Urls {
 
     // Booking service
     static readonly BookingService = `${AppSettings.HOST_URL}/booking`;
+
+    // Ping service
+    static readonly PingService = `${AppSettings.HOST_URL}/ping`;
 }
