@@ -8,8 +8,7 @@ export class Fetch {
 
     constructor(options?: { cookie: string }) {
         this.headers = {
-            'Cookie': options?.cookie || '',
-            'Accept': 'application/json'
+            'Cookie': options?.cookie || ''
         }
     }
 
