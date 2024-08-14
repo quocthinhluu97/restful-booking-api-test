@@ -15,7 +15,7 @@ describe('Room booking', async () => {
     it('Should return token', async () => {
         const response = await authApi.createAuthToken({ 'username': 'admin', 'password': 'password123' });
         expect(response.status).toBe(200);
-        authToken = response.root.parsedBody.token;
+        authToken = response.body.token;
 
         bookingApi = new BookingApi({ authToken: authToken });
     })
@@ -29,7 +29,7 @@ describe('Room booking', async () => {
         const response = await bookingApi.createBooking(expectedBooking);
         expect(response.status).toBe(200);
 
-        const returnedBooking = response.root.parsedBody;
+        const returnedBooking = response.body;
         expect(_.isMatch(returnedBooking, expectedBooking));
 
         expectedBookingId = returnedBooking.bookingid;
@@ -38,7 +38,7 @@ describe('Room booking', async () => {
     it('Should return booking Ids filtered by first name', async () => {
         const response = await bookingApi.getBookingIds({ firstname: expectedBooking.firstname });
         expect(response.status).toBe(200);
-        expect(response.root.parsedBody[0].bookingid === expectedBookingId).toBeTruthy();
+        expect(response.body[0].bookingid === expectedBookingId).toBeTruthy();
     })
 
     it('Should return all booking Ids filtered by date', async () => {
@@ -56,7 +56,7 @@ describe('Room booking', async () => {
         expect(response.status).toBe(200);
 
         const returnedBooking = response.body;
-        const bookingData = { booking: { ...expectedBooking }, bookingid: expectedBookingId };
+        const bookingData = {...expectedBooking, bookingid: expectedBookingId };
         expect(_.isMatch(bookingData, returnedBooking)).toBeTruthy();
     })
 
@@ -64,15 +64,15 @@ describe('Room booking', async () => {
         const response = await bookingApi.updateBooking(expectedBookingId, { ...expectedBooking, additionalneeds: "Tofu" });
         expect(response.status).toBe(200);
 
-        expect(response.root.parsedBody.additionalneeds).toBe('Tofu');
+        expect(response.body.additionalneeds).toBe('Tofu');
     })
 
     it('Should partially update booking', async () => {
         const response = await bookingApi.partialUpdateBooking(expectedBookingId, { firstname: 'Joe', lastname: 'Doe' });
         expect(response.status).toBe(200);
 
-        expect(response.root.parsedBody.firstname).toBe('Joe');
-        expect(response.root.parsedBody.lastname).toBe('Doe');
+        expect(response.body.firstname).toBe('Joe');
+        expect(response.body.lastname).toBe('Doe');
     })
 
     it('Should delete booking', async () => {

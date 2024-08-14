@@ -3,7 +3,7 @@ import { _Promise } from '@models/result.model';
 import { getBody } from '../constants/content-type.const';
 import RequestLogger from './request-logger.util';
 import { serialize } from 'object-to-formdata';
-import { AuthToken, RequiredHeaders } from '../models/auth.model';
+import { RequiredHeaders } from '../models/auth.model';
 
 export class Fetch {
     private readonly headers: { [key: string]: string }
@@ -111,7 +111,7 @@ export class Fetch {
 
         return {
             status: response.status,
-            body: response.body as T,
+            body: response.parsedBody as T,
             root: response
         }
     }

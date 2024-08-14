@@ -2,13 +2,14 @@ import { BaseApi } from "./base.api"
 import Urls from "constants/urls.const";
 import { BookingQuery, BookingRequestData, BookingReturnData, BookingId } from "@models/booking-info.model";
 import { RequiredHeaders } from "@models/auth.model";
+import { _Promise } from "@models/result.model";
 
 export default class BookingApi extends BaseApi {
     constructor(options?: RequiredHeaders) {
         super(options);
     }
 
-    async getBookingIds(bookingQuery?: BookingQuery) {
+    async getBookingIds(bookingQuery?: BookingQuery): _Promise<BookingId[]> {
         const response = await this._http.get<BookingId[]>({
             url: `${Urls.BookingService}?${new URLSearchParams(bookingQuery as any)}`,
             name: 'Get booking info',

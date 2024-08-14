@@ -1,8 +1,9 @@
 type ExtendedRequest = RequestInit & {
-    name: string,
+    name: string, // used for allure report
     url: string,
     pathAndQuery: string,
-    rawBody: any
+    rawBody: any,
+    disableLogging: boolean
 }
 
 type ExtendedResponse = Response & {
