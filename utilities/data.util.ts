@@ -1,7 +1,7 @@
 export default class DateUtil {
     /**
      * Get the date n days back from today in 'yyyy-mm-dd' format.
-     * @param n { number } the number of days to go back.
+     * @param n the number of days to go back.
      * @returns 
      */
     static getNDaysBack(n: number): string {
@@ -13,7 +13,7 @@ export default class DateUtil {
 
     /**
      * Formats a Date object to a string in 'yyyy-mm-dd' format.
-     * @returns { string } the formatted date string. 
+     * @returns the formatted date string. 
      */
     static formatDate(date: Date): string {
         return date.toISOString().split('T')[0];
@@ -21,7 +21,7 @@ export default class DateUtil {
 
     /**
      * Get the current date in 'yyyy-mm-dd' format.
-     * @returns { string } the current date string.
+     * @returns the current date string.
      */
     static getToday(): string {
         return DateUtil.formatDate(new Date());
