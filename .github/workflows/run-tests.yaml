@@ -25,8 +25,14 @@ jobs:
       - name: Generate report
         run: npm run test:generate-report
 
+      - name: Set artifact name with timestamp
+        id: set-artifact-name
+        run: |
+          TIMESTAMP=$(date + '%Y-%m-%d_%H-%M-%S')
+          echo "ARTIFACT_NAME=$TIMESTAMP-test-report" >> $GITHUB_ENV
+
       - name: Upload test report
         uses: actions/upload-artifact@v3
         with:
-          name: test-report
+          name: ${{ env.ARTIFACT_NAME }}
           path: allure-report
