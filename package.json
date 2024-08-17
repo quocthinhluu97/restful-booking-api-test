@@ -14,7 +14,7 @@
     "test-linux:copy-history": "cp -r allure-report/history/. allure-results/history/ > /dev/null 2>&1",
     "test:open-report": "npx allure open allure-report",
     "test-windows": "npm run test:run && npm run test:generate-report && npm run test-windows:copy-history & npm run test:open-report",
-    "test-linux": "npm run test:run && npm run test:generate-report && npm run test-linux:copy-history & npm run test:open-report",
+    "test-linux": "npm run test:run && npm run test:generate-report",
     "clean": "rmdir /s /q allure-results allure-report html"
   },
   "author": "Thinh Luu",
