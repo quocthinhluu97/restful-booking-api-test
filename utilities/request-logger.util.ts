@@ -31,7 +31,7 @@ export default class RequestLogger {
     }
 
     private static async attachResponseData(response: ExtendedResponse) {
-        // Do not parse reponse headers to JSON because it looks urgly in allure reports
+        // Do not parse reponse headers to JSON because it looks ugly in allure reports
         const requestHeaders = this.headersToCsv(response.headers);
         await allure.attachment('Response headers', requestHeaders, 'text/csv');
         console.log('Response', response.headers);
