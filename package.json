@@ -10,9 +10,11 @@
     "dev": "vitest --reporter=allure-vitest/reporter --reporter=html",
     "test:run": "vitest run --reporter=allure-vitest/reporter",
     "test:generate-report": "npx allure generate allure-results -o allure-report --clean",
-    "test:copy-history": "robocopy allure-report/history allure-results/history > NUL",
+    "test-windows:copy-history": "robocopy allure-report/history allure-results/history > NUL",
+    "test-linux:copy-history": "cp -r allure-report/history/. allure-results/history/ > /dev/null 2&1",
     "test:open-report": "npx allure open allure-report",
-    "test": "npm run test:run && npm run test:generate-report && npm run test:copy-history & npm run test:open-report",
+    "test-windows": "npm run test:run && npm run test:generate-report && npm run test-windows:copy-history & npm run test:open-report",
+    "test-linux": "npm run test:run && npm run test:generate-report && npm run test-linux:copy-history & npm run test:open-report",
     "clean": "rmdir /s /q allure-results allure-report html"
   },
   "author": "Thinh Luu",
