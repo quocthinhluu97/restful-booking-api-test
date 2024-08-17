@@ -20,4 +20,13 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run test-linux
+        run: npm run test:run
+
+      - name: Generate report
+        run: npm run test:generate-report
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: allure-report
