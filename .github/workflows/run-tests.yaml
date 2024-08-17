@@ -28,7 +28,7 @@ jobs:
       - name: Set artifact name with timestamp
         id: set-artifact-name
         run: |
-          TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%S')
+          TIMESTAMP=$(date +'%Y-%m-%dT%H-%M-%S')
           echo "ARTIFACT_NAME=$TIMESTAMP-test-report" >> $GITHUB_ENV
 
       - name: Upload test report
