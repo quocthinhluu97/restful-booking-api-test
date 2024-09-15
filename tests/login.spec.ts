@@ -1,8 +1,10 @@
 import { BookingRequestData } from '../models/booking-info.model';
 import AuthApi from 'api/auth.api';
 import BookingApi from 'api/booking.api';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { FakerUtil } from '../utilities/faker.util';
+import JsonUtil from 'utilities/json.util'
+import AppSettings from 'constants/app-setttings.const';
 const _ = require('lodash');
 
 describe('Room booking', async () => {
@@ -12,7 +14,13 @@ describe('Room booking', async () => {
     let expectedBooking: BookingRequestData = FakerUtil.bookingData();
     let expectedBookingId: number;
 
-    it('Should return token', async () => {
+    beforeAll(async () => {
+        const authToken: string = await JsonUtil.read(AppSettings.AUTH_TOKEN_FILE);
+        bookingApi = new BookingApi({ authToken });
+    })
+
+    // It is included in the global setup
+    it.skip('Should return token', async () => {
         const response = await authApi.createAuthToken({ 'username': 'admin', 'password': 'password123' });
         expect(response.status).toBe(200);
         authToken = response.body.token;
@@ -56,7 +64,7 @@ describe('Room booking', async () => {
         expect(response.status).toBe(200);
 
         const returnedBooking = response.body;
-        const bookingData = {...expectedBooking, bookingid: expectedBookingId };
+        const bookingData = { ...expectedBooking, bookingid: expectedBookingId };
         expect(_.isMatch(bookingData, returnedBooking)).toBeTruthy();
     })
 

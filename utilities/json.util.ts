@@ -39,4 +39,25 @@ export default class JsonUtil {
             throw error;
         }
     }
+
+    static async read<T>(file: string): Promise<T | undefined> {
+        let data: string | undefined;
+        try {
+            data = await fs.promises.readFile(file, 'utf-8');
+            return JSON.parse(data) as T;
+        } catch(err) {
+            console.log("Error reading file: ", err);
+            return undefined;
+        }
+    }
+
+    static async write<T>(file: string, data: T): Promise<void> {
+        try {
+            const jsonData = JSON.stringify(data, null, 2);
+            await fs.promises.writeFile(file, jsonData, 'utf-8');
+        } catch(err) {
+            console.log("Error writing file: ", err);
+            return undefined;
+        }
+    }
 }
